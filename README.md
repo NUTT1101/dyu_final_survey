@@ -4,6 +4,14 @@
 ## 動機
 期末將至，學校以個人問卷完成度，當作個人是否擁有下學期提早選課的資格，此種作法雖立意良善，但對於期末考試壓力已經很大的學生來說，實在是雪上加霜，因此這個程式，它誕生了。
 
+## 注意事項
+1. 本程式僅供學術研究使用，請勿濫用。
+2. **預設填寫：**
+- 單選: 全部非常同意
+- 評分題:  因加總只需 100 分，因此第一題評分題填 100 分，其餘填 0 分
+- 填空題非必填全填空
+4. 過程中本此爬蟲程式不會儲存您的任何資料(含帳號密碼等相關個資)，請放心使用。
+
 ## 使用方法
 1. 下載此專案
 2. 安裝 Python 3
@@ -18,10 +26,6 @@ python simple.py
 ```
 5. 啟動程式後，請耐心等待，程式會自動填寫問卷，並在填寫完成後自動關閉。
 
-## 注意事項
-1. 本程式僅供學術研究使用，請勿濫用。
-2. 過程中本此爬蟲程式不會儲存您的任何資料(含帳號密碼等相關個資)，請放心使用。
-
 ---
 # Da-yeh University Survey Quick Filler
 
@@ -30,6 +34,10 @@ This is a program designed exclusively for Da-yeh University students to quickly
 ## Motivation
 As the end of the semester approaches, the university uses individual questionnaire completion rates as a criterion for early course registration eligibility for the next semester. While this approach may be well-intentioned, it adds additional stress to students who are already under significant pressure from final exams. And so, this program was born.
 
+## Precautions
+1. This program is for academic research purposes only. Do not abuse it.
+2. During the process, this crawler program will not store any of your personal information (including account and password), so please use it with confidence.
+
 ## Usage Instructions
 1. Download this project
 2. Install Python 3
@@ -37,7 +45,3 @@ As the end of the semester approaches, the university uses individual questionna
 4. Run the program
 First, open `simple.py` and enter your student ID and password, then execute the following command:
 5. After launching the program, please wait patiently. The program will automatically fill out the questionnaire and close itself upon completion.
-
-## Precautions
-1. This program is for academic research purposes only. Do not abuse it.
-2. During the process, this crawler program will not store any of your personal information (including account and password), so please use it with confidence.
