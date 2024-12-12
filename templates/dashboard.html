@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row fade-in">
+    <div class="col-12 mb-4">
+        <div class="d-flex justify-content-between align-items-center">
+            <h2><i class="fas fa-clipboard-list me-2"></i>問卷列表</h2>
+            <div>
+                {% set ns = namespace(has_unfilled = false) %}
+                {% for survey in surveys %}
+                    {% if not survey.final_date %}
+                        {% set ns.has_unfilled = true %}
+                    {% endif %}
+                {% endfor %}
+                
+                {% if ns.has_unfilled %}
+                <button id="fill-all" class="btn btn-success me-2">
+                    <i class="fas fa-magic me-2"></i>一鍵填寫全部
+                </button>
+                {% endif %}
+
+                <a href="{{ url_for('logout') }}" class="btn btn-danger">
+                    <i class="fas fa-sign-out-alt me-2"></i>登出
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-12">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th><i class="fas fa-book me-2"></i>課程名稱</th>
+                        <th><i class="fas fa-chalkboard-teacher me-2"></i>教師名稱</th>
+                        <th><i class="fas fa-calendar-alt me-2"></i>填單日期</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for survey in surveys %}
+                    <tr>
+                        <td>{{ survey.course_name }}</td>
+                        <td>{{ survey.teacher_name }}</td>
+                        <td>{{ survey.final_date if survey.final_date else '無' }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- 進度提示 Modal -->
+<div class="modal fade" id="progressModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body text-center p-4">
+                <div class="spinner-border text-primary mb-3" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <h5 class="modal-title mb-3">正在填寫問卷</h5>
+                <div class="progress">
+                    <div id="progress-bar" class="progress-bar progress-bar-striped progress-bar-animated" 
+                         role="progressbar" style="width: 0%">0%</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const fillAllBtn = document.getElementById('fill-all');
+        const progressModal = new bootstrap.Modal(document.getElementById('progressModal'));
+        const progressBar = document.getElementById('progress-bar');
+        
+        // 將 Python 數據轉換為 JavaScript 變數
+        const surveys = JSON.parse('{{ surveys|tojson|safe }}');
+        // 只處理未填寫的問卷
+        const unfilledSurveys = surveys.filter(survey => !survey.final_date);
+        
+        fillAllBtn.addEventListener('click', async function() {
+            try {
+                fillAllBtn.disabled = true;
+                progressModal.show();
+                
+                const total = unfilledSurveys.length;
+                let completed = 0;
+                
+                for (const survey of unfilledSurveys) {
+                    try {
+                        const response = await fetch('/fill_survey', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                course_serial: survey.course_serial,
+                                teacher_id: survey.teacher_id,
+                                teacher_name: survey.teacher_name,
+                                course_name: survey.course_name,
+                                final_date: survey.final_date
+                            })
+                        });
+                        
+                        const result = await response.json();
+                        if (result.success) {
+                            console.log(`Successfully filled survey for ${survey.course_name}`);
+                        } else {
+                            console.error(`Failed to fill survey for ${survey.course_name}`);
+                        }
+                        
+                    } catch (error) {
+                        console.error('Error:', error);
+                    }
+                    
+                    completed++;
+                    const percentage = Math.round((completed / total) * 100);
+                    progressBar.style.width = `${percentage}%`;
+                    progressBar.textContent = `${percentage}%`;
+                }
+                
+                // 全部完成後重新載入頁面
+                window.location.reload();
+                
+            } finally {
+                setTimeout(() => {
+                    progressModal.hide();
+                    fillAllBtn.disabled = false;
+                }, 1000);
+            }
+        });
+    });
+</script>
+{% endblock %} 

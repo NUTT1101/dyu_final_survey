@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card fade-in">
+            <div class="card-header">
+                <h3 class="text-center mb-0">
+                    <i class="fas fa-user-circle me-2"></i>登入系統
+                </h3>
+            </div>
+            <div class="card-body">
+                <form method="POST" id="loginForm">
+                    <div class="mb-4">
+                        <label for="username" class="form-label">
+                            <i class="fas fa-id-card me-2"></i>學號
+                        </label>
+                        <input type="text" class="form-control" id="username" name="username" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="password" class="form-label">
+                            <i class="fas fa-lock me-2"></i>密碼
+                        </label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                    <div class="mb-4">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="agreeTerms" name="agreeTerms" required>
+                            <label class="form-check-label" for="agreeTerms">
+                                我已閱讀並同意<a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">使用條款</a>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-sign-in-alt me-2"></i>登入
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 使用條款 Modal -->
+<div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="termsModalLabel">使用條款</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h6>使用聲明</h6>
+                <p>本網頁僅供學術研究使用，請勿濫用。使用本網頁所有功能即表示您同意以下條款：</p>
+                
+                <h6>1. 使用限制</h6>
+                <ul>
+                    <li>本網頁僅供大葉大學在學學生使用</li>
+                    <li>禁止將本網頁用於任何商業用途</li>
+                    <li>禁止對本網頁進行逆向工程或破解</li>
+                </ul>
+
+                <h6>2. 資料收集與隱私聲明</h6>
+                <ul>
+                    <li>本網頁會收集並儲存以下資訊：
+                        <ul>
+                            <li>學號（用於系統功能與使用統計）</li>
+                            <li>系統登入時間與使用紀錄</li>
+                            <li>問卷填寫完成狀態</li>
+                        </ul>
+                    </li>
+                    <li>這些資料僅用於：
+                        <ul>
+                            <li>網頁功能維護</li>
+                            <li>使用情況統計與分析</li>
+                            <li>網頁改進參考</li>
+                        </ul>
+                    </li>
+                    <li>本網頁不會儲存您的密碼、以及其他個人資料</li>
+                    <li>收集的資料不會用於上述目的以外的用途</li>
+                    <li>您的資料將被安全地保存，不會提供給第三方</li>
+                </ul>
+
+                <h6>3. 免責聲明</h6>
+                <ul>
+                    <li>使用本網頁所產生的任何後果，需由使用者自行承擔</li>
+                    <li>開發者不對使用本網頁造成的任何損失負責</li>
+                </ul>
+
+                <h6>4. 預設填寫說明</h6>
+                <ul>
+                    <li>單選題：全部填寫「非常同意」</li>
+                    <li>評分題：第一題填寫 100 分，其餘填寫 0 分</li>
+                    <li>填空題：非必填項目皆留空</li>
+                </ul>
+                
+                原始碼：<a href="https://github.com/NUTT1101/dyu_final_survey">NUTT1101/dyu_final_survey</a>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('loginForm');
+    const agreeTerms = document.getElementById('agreeTerms');
+    
+    form.addEventListener('submit', function(e) {
+        if (!agreeTerms.checked) {
+            e.preventDefault();
+            alert('請先閱讀並同意使用條款');
+        }
+    });
+});
+</script>
+{% endblock %} 

@@ -82,7 +82,7 @@ class iCloud:
            "final_day":"填單日期  ",
            "final_ip":"填單IP",
            "need_write":1,
-           "teacher_name":"教師編號",
+           "teacher_name":"教師名稱",
            "class_no":"課程編號",
            "fs_day":"填單開始日期時間",
            "fe_day":"填單結束日期時間",
@@ -98,7 +98,10 @@ class iCloud:
         return [
             Answer(
                 teacher_id=i['teacher_id'],
-                course_serial=i['class_no']
+                course_serial=i['class_no'],
+                course_name=i['class_name'],
+                teacher_name=i['teacher_name'],
+                final_date=i['final_day']
             ) for i in json_list
         ]
 

@@ -31,7 +31,10 @@ class Answer:
     def __init__(
             self,
             teacher_id,
+            teacher_name,
             course_serial,
+            course_name,
+            final_date,
             question_id : str = "20240009",
             group_id : int = 1,
             event_id : str = "001",
@@ -40,7 +43,22 @@ class Answer:
         self.group_id = group_id
         self.event_id = event_id
         self.teacher_id = teacher_id
-        self.course_serial = course_serial
+        self.course_serial = course_serial.strip()
+        self._teacher_name = teacher_name.strip()
+        self._course_name = course_name.strip()
+        self._final_date = final_date.strip() # strip 掉空白
+        
+    @property
+    def course_name(self):
+        return self._course_name
+
+    @property
+    def teacher_name(self):
+        return self._teacher_name
+
+    @property
+    def final_date(self):
+        return self._final_date
 
     def get_json(self):
         # 產生填寫問卷的 JSON 格式
@@ -100,6 +118,15 @@ class Answer:
             survey["ANS_ary"].append(entry)
 
         return json.dumps(survey)
+
+    def to_dict(self):
+        return {
+            'teacher_id': self.teacher_id,
+            'course_serial': self.course_serial,
+            'course_name': self.course_name,
+            'teacher_name': self.teacher_name,
+            'final_date': self.final_date
+        }
 
 if __name__ == "__main__":
     answer = Answer("教師編號", "課程編號")
