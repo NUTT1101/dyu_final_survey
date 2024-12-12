@@ -37,7 +37,6 @@ class iCloud:
             # Return the connection object, which contains the PHP session ID and the student ID
             return Connection(
                 cookie["PHPSESSID"].value,
-                username,
             )
 
     @staticmethod
@@ -49,7 +48,7 @@ class iCloud:
             cookies={"PHPSESSID": conn.php_session_id}
         )
 
-        if response.status_code == 302:
+        if response.status_code == 200 or response.status_code == 302:
             return True
         else:
             raise Exception(f"""
