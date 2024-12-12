@@ -2,7 +2,7 @@ from icloud import iCloud
 
 if __name__ == "__main__":
     # 登入至 iCloud 系統，請將 "帳號" 和 "密碼" 替換成自己的帳號密碼
-    conn = iCloud.login("F1206016", "12345678Dick")
+    conn = iCloud.login("帳號", "密碼")
     # 取得所有問卷
     survey_list = iCloud.list(conn)
     # 逐一填寫問卷
